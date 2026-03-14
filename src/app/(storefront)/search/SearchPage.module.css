@@ -1,0 +1,52 @@
+.page {
+  padding: 3rem 1rem;
+  min-height: 60vh;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-text);
+}
+
+.count {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.noResults {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: var(--color-surface-hover);
+  border-radius: var(--radius-lg);
+}
+
+.noResults p {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.tips {
+  display: inline-block;
+  text-align: left;
+  max-width: 400px;
+}
+
+.tips h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tips ul {
+  padding-left: 1.5rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}

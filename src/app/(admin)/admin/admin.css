@@ -1,0 +1,40 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 260px; /* Width of Sidebar */
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  height: 60px;
+  background-color: var(--color-background-elevated);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2rem;
+}
+
+.admin-content {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Light theme defaults for Admin readability as per Note */
+.admin-layout {
+  --color-background: #f8fafc;
+  --color-background-elevated: #ffffff;
+  --color-background-hover: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --radius-md: 0.375rem;
+}

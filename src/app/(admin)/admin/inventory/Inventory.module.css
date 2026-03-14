@@ -1,0 +1,139 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.alertText {
+  color: #ef4444;
+  font-weight: 500;
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.imagePlaceholder {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.imgFallback {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.productImg {
+  object-fit: cover;
+}
+
+.productName {
+  font-weight: 500;
+}
+
+.categoryName {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.stockDanger {
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stockWarning {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stockGood {
+  color: #10b981;
+  font-weight: 500;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.editableCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s;
+}
+
+.editableCell:hover {
+  background-color: var(--color-background-hover);
+}
+
+.editHint {
+  opacity: 0;
+  font-size: 0.75rem;
+  transition: opacity 0.2s;
+}
+
+.editableCell:hover .editHint {
+  opacity: 1;
+}
+
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stockInput {
+  width: 80px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  outline: none;
+  font-family: inherit;
+}
+
+.saveBtn {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  opacity: 0.9;
+}

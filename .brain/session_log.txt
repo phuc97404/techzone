@@ -1,0 +1,46 @@
+[14:37] START phase-01-setup
+[14:38] DONE task: Tạo Next.js 15 project với App Router + TypeScript
+[14:39] DONE task: Install core dependencies (prisma, next-auth, zustand, bcryptjs, zod)
+[14:39] DONE task: Install dev dependencies (@types/bcryptjs)
+[14:40] DONE task: Setup folder structure (app, components, lib, stores, types, data)
+[14:42] DONE task: Setup CSS design system (globals.css) - dark theme premium
+[14:43] DONE task: Tạo core files (prisma.ts, utils.ts, constants.ts, types, cart-store)
+[14:44] DONE task: Tạo .env.example
+[14:45] DONE task: Verify npm run build + npm run dev - PASSED
+[14:45] DECISION: Prisma 7 requires prisma.config.ts for datasource URL (no url in schema.prisma)
+[14:45] DECISION: Prisma 7 PrismaClient uses adapter pattern, no datasourceUrl constructor
+[14:45] END phase-01-setup ✅
+[14:52] START phase-02-database
+[14:53] DONE task: Prisma schema already created in Phase 01 (10 models, 4 enums, indexes)
+[14:55] DONE task: Created seed data (30 products, 7 categories, 18 brands, 2 users, 3 promotions)
+[14:55] DONE task: Added db scripts to package.json
+[14:56] DONE task: Installed ts-node for seed runner
+[14:56] NOTE: Database connection pending - waiting for user to provide DATABASE_URL
+[14:56] WAITING: User needs to create Neon PostgreSQL or provide DATABASE_URL
+[14:59] DONE task: DATABASE_URL received from user (Neon PostgreSQL)
+[14:59] DONE task: Created .env file
+[15:00] DONE task: prisma db push - schema synced to Neon
+[15:01] DONE task: prisma generate - client types regenerated
+[15:02] DONE task: prisma db seed - 30 products, 7 categories, 18 brands seeded ✅
+[15:02] DONE task: Updated lib/prisma.ts with adapter-pg pattern
+[15:03] DONE task: npm run build - PASSED
+[15:03] DECISION: Prisma 7 requires @prisma/adapter-pg + pg Pool for direct DB connection
+[15:03] DECISION: datasource.url in prisma.config.ts needs dotenv or Prisma env() helper
+[15:03] END phase-02-database ✅
+[15:05] START phase-03-backend-apis
+[15:06] DONE task: Setup NextAuth credentials provider + JWT role callbacks
+[15:06] DONE task: Setup Next.js Middleware (proxy.ts) for admin routing
+[15:08] DONE task: Define Zod validation schemas for API
+[15:10] DONE task: `GET /api/categories`, `GET /api/brands`
+[15:11] DONE task: `GET /api/products`, `GET /api/products/[slug]`
+[15:13] DONE task: `GET/POST /api/cart`, `PUT/DELETE /api/cart/[itemId]`
+[15:15] DONE task: `POST/GET /api/orders` + stock management transaction
+[15:20] DONE task: CRUD Admin Products API
+[15:22] DONE task: `PUT /api/admin/orders/[id]`, review APIs and Promotions API
+[15:27] DECISION: Adapting route handlers with Promise-based params for Next.js 15+ 
+[15:30] DONE task: npm run build successfully completed with all strict typechecks passed
+[15:30] END phase-03-backend-apis ✅
+[15:28] RUN SUCCESS: App running at http://localhost:3000
+[15:35] Cấu hình Phase-05 - Admin CMS
+[15:35] Setup folder structure & install thư viện biểu đồ Recharts cho Admin CMS
+[15:46:22] RUN SUCCESS: App running at http://localhost:3002

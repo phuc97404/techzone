@@ -1,0 +1,17 @@
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.currentPrice {
+  color: var(--color-danger);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.originalPrice {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  font-size: 0.85rem;
+}

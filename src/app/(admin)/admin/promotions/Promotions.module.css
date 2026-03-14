@@ -1,0 +1,107 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.createBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.createBtn:hover {
+  opacity: 0.9;
+}
+
+.promoName {
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.codeBadge {
+  display: inline-block;
+  background-color: var(--color-background-hover);
+  border: 1px dashed var(--color-text-muted);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: monospace;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.discountVal {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.dateRange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.usageCount {
+  font-weight: 500;
+}
+
+.statusBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.625rem;
+  border-radius: 99px;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.active {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.inactive {
+  background-color: rgba(100, 116, 139, 0.2);
+  color: #64748b;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}

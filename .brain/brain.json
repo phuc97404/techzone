@@ -1,0 +1,71 @@
+{
+  "project": {
+    "name": "TechZone",
+    "description": "Nền tảng thương mại điện tử linh kiện PC (CPU, GPU, RAM, SSD...) - Full-stack Next.js 15, MUI, Atomic Design.",
+    "created_at": "2026-03-07T14:28:20+07:00",
+    "status": "Refactored & Polished (Phase 09)",
+    "architecture_pattern": "Atomic Design + MUI ThemeProvider"
+  },
+  "tech_stack": [
+    "Next.js 15 (App Router)",
+    "TypeScript",
+    "Material UI (MUI) @6.x",
+    "Emotion (@emotion/react, @emotion/styled)",
+    "PostgreSQL (Neon Serverless)",
+    "Prisma ORM",
+    "NextAuth.js v5",
+    "Zustand",
+    "CSS Modules + Design Tokens"
+  ],
+  "features": [
+    "Trang chủ: HeroBanner, CategoryGrid, High-performance ProductGrid",
+    "Trang sản phẩm: Premium Image Gallery, Specs Table, Reviews, Related Products",
+    "Tìm kiếm + Filter Sidebar: Search suggestions, Dynamic filter by category",
+    "Hệ thống Cart & Checkout: Persisted state, Secure payment flow",
+    "Admin Dashboard: Quản lý sản phẩm (ProductForm), Đơn hàng (OrderTimeline), Doanh thu (Charts), Tồn kho"
+  ],
+  "product_categories": [
+    "CPU",
+    "Mainboard",
+    "GPU",
+    "RAM",
+    "SSD",
+    "Phụ kiện",
+    "Màn hình"
+  ],
+  "decisions": [
+    {
+      "date": "2026-03-07",
+      "decision": "MUI + Atomic Design Refactor",
+      "reason": "Tăng cường tính nhất quán (Consistency), khả năng tái sử dụng (Reusability) và Scalability cho dự án quy mô lớn."
+    },
+    {
+      "date": "2026-03-07",
+      "decision": "ThemeRegistry and AppRouterCacheProvider",
+      "reason": "Hỗ trợ Next.js 15+ App Router cho việc render MUI phía server một cách hiệu quả."
+    },
+    {
+      "date": "2026-03-07",
+      "decision": "Custom Atoms (Button Glow, Card Glassmorphism)",
+      "reason": "Thiết kế giao diện Premium đặc trưng của TechZone mà không làm vỡ kiến trúc MUI chuẩn."
+    }
+  ],
+  "knowledge_items": {
+    "component_paths": {
+      "atoms": "src/components/ui/",
+      "molecules": "src/components/common/",
+      "organisms": "src/components/modules/"
+    },
+    "important_files": {
+      "theme": "src/components/layout/ThemeRegistry.tsx",
+      "architecture": "brain/4b31b84b-d3a4-4efa-ac3a-568464010883/techzone_architecture.md",
+      "constructor": "brain/4b31b84b-d3a4-4efa-ac3a-568464010883/techzone_constructor.md"
+    },
+    "api_endpoints": [
+      { "path": "/api/products/[slug]", "explained": "Chi tiết sản phẩm + Related + Reviews" },
+      { "path": "/api/search/suggestions", "explained": "Gợi ý tìm kiếm real-time" }
+    ]
+  },
+  "changelog_path": "CHANGELOG.md",
+  "plan_path": "plans/260307-1431-techzone-ecommerce/plan.md"
+}
