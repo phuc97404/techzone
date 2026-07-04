@@ -70,7 +70,11 @@ export default function ProductForm({ initialData, categories, brands }: Product
     if (Array.isArray(parsedOptions) && parsedOptions.length > 0) {
       return parsedOptions.map(opt => ({
         name: opt.name || "",
-        values: Array.isArray(opt.values) ? opt.values.join(", ") : (opt.values || "")
+        values: Array.isArray(opt.values) 
+          ? opt.values.map((v: { val: string, priceOffset?: number } | string) => 
+               typeof v === 'object' && v !== null ? `${v.val}${v.priceOffset ? ':'+v.priceOffset : ''}` : v
+            ).join(", ") 
+          : (opt.values || "")
       }));
     }
     
@@ -151,12 +155,21 @@ export default function ProductForm({ initialData, categories, brands }: Product
       return acc;
     }, {} as Record<string, string>);
 
-    // Transform options string values back to arrays
+    // Transform options string values back to arrays with price offset support
     const finalOptions = options
       .filter(opt => opt.name.trim() !== "")
       .map(opt => ({
         name: opt.name.trim(),
-        values: opt.values.split(",").map(v => v.trim()).filter(v => v !== "")
+        values: opt.values.split(",").map(v => {
+          let valStr = v.trim();
+          let priceOffset = 0;
+          if (valStr.includes(":")) {
+            const parts = valStr.split(":");
+            valStr = parts[0].trim();
+            priceOffset = parseInt(parts[1].trim().replace(/\D/g, '')) || 0;
+          }
+          return { val: valStr, priceOffset };
+        }).filter(v => v.val !== "")
       }));
 
     // Lưu ý: Ở môi trường thật, đoạn này sẽ gọi API để upload file mới (newImages) lên S3/Cloudinary
@@ -280,7 +293,7 @@ export default function ProductForm({ initialData, categories, brands }: Product
                   onChange={(e) => handleOptionChange(idx, "name", e.target.value)}
                 />
                 <input 
-                  placeholder="Các giá trị cách nhau bằng dấu phẩy (vd: Đỏ, Xanh, Vàng)" 
+                  placeholder="Các giá trị cách nhau bằng dấu phẩy (Dùng : để thêm giá. vd: RAM 16GB, RAM 32GB:500000)" 
                   value={opt.values} 
                   onChange={(e) => handleOptionChange(idx, "values", e.target.value)}
                 />

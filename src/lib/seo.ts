@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 
 export const SITE_CONFIG = {
-  name: "TechZone",
-  description: "Cửa hàng linh kiện máy tính, laptop và phụ kiện công nghệ hàng đầu.",
-  url: process.env.NEXT_PUBLIC_BASE_URL || "https://techzone.com",
+  name: "Hupu",
+  description: "Hupu - Dịch vụ In 3D Custom theo yêu cầu. Máy in 3D, Filament, Mô hình, Phụ kiện & Thiết kế 3D chuyên nghiệp.",
+  url: process.env.NEXT_PUBLIC_BASE_URL || "https://hupu.vn",
   ogImage: "/og-image.jpg",
   links: {
-    twitter: "https://twitter.com/techzone",
-    facebook: "https://facebook.com/techzone",
+    twitter: "https://twitter.com/hupu3d",
+    facebook: "https://facebook.com/hupu3d",
   },
 };
 
@@ -29,15 +29,16 @@ export function constructMetadata({
     },
     description,
     keywords: [
-      "linh kiện máy tính",
-      "PC gaming",
-      "laptop",
-      "build PC",
-      "TechZone",
-      "phụ kiện máy tính",
+      "in 3D",
+      "3D printing",
+      "in 3D custom",
+      "máy in 3D",
+      "filament",
+      "Hupu",
+      "mô hình 3D",
     ],
-    authors: [{ name: "TechZone Team" }],
-    creator: "TechZone",
+    authors: [{ name: "Hupu Team" }],
+    creator: "Hupu",
     openGraph: {
       type: "website",
       locale: "vi_VN",
@@ -59,7 +60,7 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@techzone",
+      creator: "@hupu3d",
     },
     icons: {
       icon: "/favicon.ico",
@@ -86,7 +87,7 @@ export function getProductSchema(product: any) {
     sku: product.id,
     brand: {
       "@type": "Brand",
-      name: product.brand?.name || "TechZone",
+      name: product.brand?.name || "Hupu",
     },
     offers: {
       "@type": "Offer",

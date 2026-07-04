@@ -1,25 +1,25 @@
-export const APP_NAME = 'TechZone';
-export const APP_DESCRIPTION = 'Linh kiện máy tính chính hãng - CPU, GPU, RAM, SSD, Mainboard, Màn hình & Phụ kiện';
+export const APP_NAME = 'Hupu';
+export const APP_DESCRIPTION = 'Dịch vụ In 3D Custom theo yêu cầu - Máy in 3D, Filament, Mô hình, Phụ kiện & Thiết kế 3D';
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 export const CATEGORIES = [
-  { name: 'CPU', slug: 'cpu', icon: '🔲', description: 'Bộ vi xử lý Intel & AMD' },
-  { name: 'Mainboard', slug: 'mainboard', icon: '🟩', description: 'Bo mạch chủ các hãng' },
-  { name: 'GPU', slug: 'gpu', icon: '🎮', description: 'Card đồ hoạ NVIDIA & AMD' },
-  { name: 'RAM', slug: 'ram', icon: '💾', description: 'Bộ nhớ DDR4 & DDR5' },
-  { name: 'SSD', slug: 'ssd', icon: '💿', description: 'Ổ cứng thể rắn NVMe & SATA' },
-  { name: 'Phụ kiện', slug: 'phu-kien', icon: '🖱️', description: 'Chuột, bàn phím, tai nghe' },
-  { name: 'Màn hình', slug: 'man-hinh', icon: '🖥️', description: 'Màn hình Gaming & Đồ hoạ' },
+  { name: 'Máy in 3D', slug: 'may-in-3d', icon: '🖨️', description: 'Máy in 3D FDM & SLA các hãng' },
+  { name: 'Filament & Vật liệu', slug: 'filament-vat-lieu', icon: '🧵', description: 'PLA, ABS, PETG, Resin & Vật liệu đặc biệt' },
+  { name: 'Mô hình Custom', slug: 'mo-hinh-custom', icon: '🎭', description: 'Figure, Tượng, Prototype theo yêu cầu' },
+  { name: 'Phụ kiện & Linh kiện', slug: 'phu-kien-linh-kien', icon: '🔧', description: 'Nozzle, Hotend, Build plate & linh kiện thay thế' },
+  { name: 'Dịch vụ In 3D', slug: 'dich-vu-in-3d', icon: '⚙️', description: 'In 3D theo file, theo yêu cầu' },
+  { name: 'Thiết kế 3D', slug: 'thiet-ke-3d', icon: '🎨', description: 'File STL, Modeling, Scan 3D' },
+  { name: 'Combo & Set', slug: 'combo-set', icon: '📦', description: 'Bộ kit cho người mới & Combo tiết kiệm' },
 ] as const;
 
 export const BRANDS = {
-  cpu: ['Intel', 'AMD'],
-  mainboard: ['ASUS', 'MSI', 'Gigabyte', 'ASRock'],
-  gpu: ['NVIDIA', 'AMD', 'ASUS', 'MSI', 'Gigabyte', 'EVGA'],
-  ram: ['Kingston', 'Corsair', 'G.Skill', 'Crucial', 'ADATA'],
-  ssd: ['Samsung', 'WD', 'Crucial', 'Kingston', 'Transcend', 'Kioxia'],
-  'phu-kien': ['Logitech', 'Razer', 'Keychron', 'AKKO', 'HyperX', 'SteelSeries'],
-  'man-hinh': ['ASUS', 'LG', 'Dell', 'Samsung', 'AOC', 'BenQ', 'ViewSonic'],
+  'may-in-3d': ['Creality', 'Bambu Lab', 'Prusa', 'Anycubic', 'Elegoo', 'Formlabs'],
+  'filament-vat-lieu': ['eSUN', 'Hatchbox', 'Sunlu', 'Polymaker', 'Prusament', 'Overture'],
+  'mo-hinh-custom': ['Hupu Studio', 'Custom Order', 'Artisan 3D'],
+  'phu-kien-linh-kien': ['E3D', 'Bondtech', 'Slice Engineering', 'Capricorn', 'BLTouch'],
+  'dich-vu-in-3d': ['Hupu Print', 'Express 3D'],
+  'thiet-ke-3d': ['Hupu Design', 'Freelance 3D'],
+  'combo-set': ['Creality', 'Bambu Lab', 'Anycubic', 'Hupu Bundle'],
 } as const;
 
 export const ORDER_STATUS = {

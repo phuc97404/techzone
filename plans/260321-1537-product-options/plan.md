@@ -17,7 +17,7 @@ Xây dựng tính năng "Tuỳ chọn sản phẩm" (Variants/Options) theo ki�
 | 01 | Bổ sung lược đồ dữ liệu (Database Schema) | ✅ Complete | 100% |
 | 02 | Xây dựng Admin Product Options Builder | ✅ Complete | 100% |
 | 03 | Storefront Product Detail UI + Mua Hàng | ✅ Complete | 100% |
-| 04 | Cập nhật Cart & Order (Hoàn tất luồng thanh toán) | ⬜ Pending | 0% |
+| 04 | Cập nhật Cart & Order (Hoàn tất luồng thanh toán) | ✅ Complete | 100% |
 
 ## Quick Commands
 - Start Phase 1: `/code phase-01`

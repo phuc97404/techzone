@@ -43,8 +43,24 @@ export async function POST(req: Request) {
     for (const item of items) {
       const product = await prisma.product.findUnique({ where: { id: item.productId } });
       if (!product) throw new Error(`Sản phẩm ${item.productId} không tồn tại`);
-      const price = product.salePrice ?? product.price;
-      totalAmount += price * item.quantity;
+      let basePrice = product.salePrice ?? product.price;
+
+      // Calculate price offset from options
+      const rawOptions = (product as { options?: unknown }).options;
+      if (item.selectedOptions && typeof rawOptions === 'object' && rawOptions !== null) {
+         const parsedOptions = Array.isArray(rawOptions) ? rawOptions : [];
+         for (const [groupName, valName] of Object.entries(item.selectedOptions)) {
+            const group = parsedOptions.find((o: any) => o.name === groupName);
+            if (group && Array.isArray(group.values)) {
+               const optVal = group.values.find((v: any) => v.val === valName);
+               if (optVal && optVal.priceOffset) {
+                  basePrice += optVal.priceOffset;
+               }
+            }
+         }
+      }
+      
+      totalAmount += basePrice * item.quantity;
     }
 
     if (promoCode) {
@@ -76,9 +92,10 @@ export async function POST(req: Request) {
     // 4. Create order items via RAW SQL
     for (const item of items) {
       const itemId = `item_${Math.random().toString(36).substring(2, 10)}${Date.now().toString(36)}`;
+      const selectedOptionsJson = item.selectedOptions ? JSON.stringify(item.selectedOptions) : null;
       await prisma.$executeRaw`
-        INSERT INTO "order_items" ("id", "quantity", "price", "orderId", "productId")
-        VALUES (${itemId}, ${item.quantity}, ${item.price}, ${orderId}, ${item.productId})
+        INSERT INTO "order_items" ("id", "quantity", "price", "orderId", "productId", "selectedOptions")
+        VALUES (${itemId}, ${item.quantity}, ${item.price}, ${orderId}, ${item.productId}, ${selectedOptionsJson}::jsonb)
       `;
     }
 

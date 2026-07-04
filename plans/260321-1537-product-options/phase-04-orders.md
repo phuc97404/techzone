@@ -1,5 +1,5 @@
 # Phase 04: Cập nhật Cart & Order (Hoàn tất luồng thanh toán)
-Status: ⬜ Pending | 🟡 In Progress | ✅ Complete
+Status: ✅ Complete
 Dependencies: Phase 03
 
 ## Objective

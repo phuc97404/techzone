@@ -83,6 +83,15 @@ export default function CartPage() {
                      <Link href={`/products/cat/${item.product.slug}`} className="text-lg font-bold text-slate-200 hover:text-pink-400 transition-colors line-clamp-2 leading-tight mb-2">
                        {item.product.name}
                      </Link>
+                     {item.product.selectedOptions && Object.keys(item.product.selectedOptions).length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                           {Object.entries(item.product.selectedOptions).map(([k, v]) => (
+                               <span key={k} className="text-xs font-semibold bg-slate-700/50 text-slate-300 px-2 py-1 rounded-md border border-slate-600/30">
+                                   {k}: {v as string}
+                               </span>
+                           ))}
+                        </div>
+                     )}
                      <Typography variant="body2" className="text-slate-400 mb-4 inline-flex px-2 py-0.5 rounded-full bg-slate-700/50 border border-slate-600/50">
                        Còn lại: {item.product.stock}
                      </Typography>

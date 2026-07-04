@@ -4,30 +4,28 @@ import ThemeRegistry from "@/components/layout/ThemeRegistry";
 
 export const metadata: Metadata = {
   title: {
-    default: "TechZone - Linh Kiện Máy Tính Chính Hãng",
-    template: "%s | TechZone",
+    default: "Hupu - In 3D Custom Theo Yêu Cầu",
+    template: "%s | Hupu",
   },
   description:
-    "TechZone - Chuyên cung cấp linh kiện máy tính chính hãng: CPU, GPU, RAM, SSD, Mainboard, Màn hình & Phụ kiện. Giá tốt nhất, bảo hành uy tín.",
+    "Hupu - Chuyên dịch vụ In 3D Custom theo yêu cầu: Máy in 3D, Filament, Mô hình Custom, Phụ kiện & Thiết kế 3D. Chất lượng cao, giá tốt nhất.",
   keywords: [
-    "linh kiện máy tính",
-    "CPU",
-    "GPU",
-    "RAM",
-    "SSD",
-    "mainboard",
-    "màn hình",
-    "phụ kiện gaming",
-    "build PC",
-    "techzone",
+    "in 3D",
+    "in 3D custom",
+    "máy in 3D",
+    "filament",
+    "mô hình 3D",
+    "3D printing",
+    "prototype",
+    "hupu",
   ],
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    siteName: "TechZone",
-    title: "TechZone - Linh Kiện Máy Tính Chính Hãng",
+    siteName: "Hupu",
+    title: "Hupu - In 3D Custom Theo Yêu Cầu",
     description:
-      "Chuyên cung cấp linh kiện máy tính chính hãng. CPU, GPU, RAM, SSD, Mainboard, Màn hình & Phụ kiện.",
+      "Chuyên dịch vụ In 3D Custom theo yêu cầu. Máy in 3D, Filament, Mô hình Custom, Phụ kiện & Thiết kế 3D.",
   },
   robots: {
     index: true,

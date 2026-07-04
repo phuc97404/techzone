@@ -10,10 +10,10 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="flex flex-col gap-6 lg:col-span-2">
             <h3 className="text-3xl font-black tracking-tight bg-gradient-to-r from-pink-500 to-indigo-500 bg-clip-text text-transparent w-max">
-              TechZone
+              Hupu
             </h3>
             <Typography variant="body1" className="text-slate-400 leading-relaxed max-w-md">
-              TechZone chuyên cung cấp linh kiện máy tính, PC Gaming, thiết bị văn phòng và phụ kiện chính hãng với giá tốt nhất thị trường.
+              Hupu chuyên cung cấp dịch vụ In 3D Custom theo yêu cầu, máy in 3D, filament, mô hình và phụ kiện in 3D chất lượng cao với giá tốt nhất thị trường.
             </Typography>
             <div className="flex flex-col gap-4 mt-2">
               <div className="flex items-center gap-3 text-slate-300">
@@ -26,7 +26,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-slate-300">
                 <Mail size={20} className="text-pink-400" />
-                <span>Email: support@techzone.vn</span>
+                <span>Email: support@hupu.vn</span>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-4">
               <li>
-                <Link href="/about" className="text-slate-400 hover:text-pink-400 transition-colors">Giới thiệu TechZone</Link>
+                <Link href="/about" className="text-slate-400 hover:text-pink-400 transition-colors">Giới thiệu Hupu</Link>
               </li>
               <li>
                 <Link href="/tuyen-dung" className="text-slate-400 hover:text-pink-400 transition-colors">Tuyển dụng</Link>
@@ -47,7 +47,7 @@ export default function Footer() {
                 <Link href="/contact" className="text-slate-400 hover:text-pink-400 transition-colors">Liên hệ</Link>
               </li>
               <li>
-                <Link href="/showroom" className="text-slate-400 hover:text-pink-400 transition-colors">Hệ thống Showroom</Link>
+                <Link href="/showroom" className="text-slate-400 hover:text-pink-400 transition-colors">Xưởng In 3D</Link>
               </li>
             </ul>
           </div>
@@ -64,7 +64,7 @@ export default function Footer() {
                 <Link href="/chinh-sach-doi-tra" className="text-slate-400 hover:text-pink-400 transition-colors">Chính sách đổi trả</Link>
               </li>
               <li>
-                <Link href="/huong-dan-mua-hang" className="text-slate-400 hover:text-pink-400 transition-colors">Hướng dẫn mua hàng</Link>
+                <Link href="/huong-dan-mua-hang" className="text-slate-400 hover:text-pink-400 transition-colors">Hướng dẫn đặt in</Link>
               </li>
               <li>
                 <Link href="/huong-dan-thanh-toan" className="text-slate-400 hover:text-pink-400 transition-colors">Hướng dẫn thanh toán</Link>
@@ -77,7 +77,7 @@ export default function Footer() {
       <div className="border-t border-slate-800 bg-slate-900/50 pt-8 mt-12">
         <Container maxWidth="xl">
           <p className="text-center text-slate-500 text-sm">
-            © {new Date().getFullYear()} TechZone. All rights reserved.
+            © {new Date().getFullYear()} Hupu. All rights reserved.
           </p>
         </Container>
       </div>

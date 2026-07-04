@@ -59,6 +59,14 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                            </div>
                            <div>
                               <p style={{ margin: "0 0 0.25rem 0", fontWeight: 500 }}>{item.product.name}</p>
+                              {(() => {
+                                const selOpts = (item as { selectedOptions?: unknown }).selectedOptions as Record<string, string>;
+                                return selOpts && Object.keys(selOpts).length > 0 ? (
+                                  <p style={{ margin: "0 0 0.25rem 0", fontSize: "0.75rem", color: "var(--color-primary)", fontWeight: 600 }}>
+                                    {Object.entries(selOpts).map(([k, v]) => `${k}: ${v}`).join(' | ')}
+                                  </p>
+                                ) : null;
+                              })()}
                               <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--color-text-muted)" }}>Số lượng: x{item.quantity}</p>
                            </div>
                         </div>

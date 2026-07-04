@@ -112,9 +112,10 @@ export default function CheckoutPage() {
       const orderData = {
         ...formData,
         items: items.map(i => ({ 
-           productId: i.product.id, 
+           productId: i.product.actualId || i.product.id, 
            quantity: i.quantity,
-           price: i.product.salePrice ?? i.product.price
+           price: i.product.salePrice ?? i.product.price,
+           selectedOptions: i.product.selectedOptions || null
         })),
         promoCode: promoCode && discount > 0 ? promoCode : undefined,
       };
@@ -350,6 +351,11 @@ export default function CheckoutPage() {
                              <Typography variant="body2" className="text-slate-200 font-semibold truncate leading-tight">
                                 {item.product.name}
                              </Typography>
+                             {item.product.selectedOptions && Object.keys(item.product.selectedOptions).length > 0 && (
+                                <Typography variant="caption" className="text-slate-400 block truncate mt-0.5">
+                                   {Object.entries(item.product.selectedOptions).map(([k, v]) => `${k}: ${v}`).join(' | ')}
+                                </Typography>
+                             )}
                              <Typography variant="body2" className="text-pink-400 font-bold mt-1">
                                 {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price * item.quantity)}
                              </Typography>

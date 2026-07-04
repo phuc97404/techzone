@@ -5,10 +5,17 @@ import { Button, Typography } from "@mui/material";
 import AddToCartButton from "./AddToCartButton";
 import Link from "next/link";
 
+interface OptionValue {
+  val: string;
+  priceOffset: number;
+}
+
 interface OptionGroup {
   name: string;
-  values: string[];
+  values: OptionValue[];
 }
+import PriceDisplay from "@/components/ui/PriceDisplay";
+import Badge from "@/components/ui/Badge";
 
 export default function ProductOptionsSelector({ 
   product, 
@@ -34,8 +41,43 @@ export default function ProductOptionsSelector({
     }
   };
 
+  const currentBasePrice = product.salePrice || product.price;
+  const totalPriceOffset = options.reduce((sum, opt) => {
+    const selectedVal = selectedOptions[opt.name];
+    if (!selectedVal) return sum;
+    const found = opt.values.find(v => v.val === selectedVal);
+    return sum + (found?.priceOffset || 0);
+  }, 0);
+  const finalPrice = currentBasePrice + totalPriceOffset;
+  const originalFinalPrice = product.price + totalPriceOffset;
+  const isSale = product.salePrice && product.salePrice < product.price;
+
   return (
     <div className="w-full flex flex-col gap-6">
+      
+      {/* Price Display */}
+      <div className="bg-slate-800/40 border border-slate-700/50 rounded-3xl p-6 sm:p-8 w-full shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4 mb-2">
+            <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-indigo-400">
+              <PriceDisplay price={finalPrice} sx={{ background: 'transparent', WebkitBackgroundClip: 'text', color: 'transparent', backgroundImage: 'linear-gradient(to right, #ec4899, #818cf8)' }} />
+            </div>
+            {isSale && (
+                <Typography variant="h6" className="text-slate-500 line-through font-semibold mb-1">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalFinalPrice)}
+                </Typography>
+            )}
+          </div>
+          
+          {isSale && (
+            <div className="inline-block mt-2">
+                <Badge variant="danger" className="bg-red-500/10 text-red-400 border border-red-500/30 px-3 py-1 font-bold shadow-none">
+                  🔥 Tiết kiệm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(originalFinalPrice - finalPrice).replace('₫', 'đ')}
+                </Badge>
+            </div>
+          )}
+      </div>
+
+      {/* Options */}
       {options.length > 0 && (
         <div className="flex flex-col gap-4 mb-2">
           {options.map(opt => (
@@ -44,7 +86,8 @@ export default function ProductOptionsSelector({
                 {opt.name}: <span className="text-white ml-1 font-bold">{selectedOptions[opt.name] || ""}</span>
               </Typography>
               <div className="flex flex-wrap gap-2 pt-1">
-                {opt.values.map(val => {
+                {opt.values.map(v => {
+                  const val = v.val;
                   const isSelected = selectedOptions[opt.name] === val;
                   return (
                     <button
@@ -56,7 +99,7 @@ export default function ProductOptionsSelector({
                           : 'border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500 hover:bg-slate-700'
                         }`}
                     >
-                      {val}
+                      {val} {v.priceOffset > 0 ? `(+${new Intl.NumberFormat('vi-VN').format(v.priceOffset)}đ)` : ''}
                     </button>
                   );
                 })}
@@ -81,11 +124,12 @@ export default function ProductOptionsSelector({
             >
               <AddToCartButton 
                 product={{
-                  id: product.id,
+                  id: Object.keys(selectedOptions).length > 0 ? `${product.id}-${JSON.stringify(selectedOptions)}` : product.id,
+                  actualId: product.id,
                   name: product.name,
                   slug: product.slug,
-                  price: product.price,
-                  salePrice: product.salePrice || undefined,
+                  price: originalFinalPrice,
+                  salePrice: isSale ? finalPrice : undefined,
                   image: images.length > 0 ? images[0] : "/placeholder.png",
                   stock: product.stock,
                   selectedOptions // Phase 4 will handle this

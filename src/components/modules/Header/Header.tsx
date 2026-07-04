@@ -7,14 +7,14 @@ import { Container } from "@mui/material";
 import { getNewsCategories } from "@/lib/news";
 
 const CATEGORIES = [
-  { label: "CPU", href: "/products/cpu" },
-  { label: "Mainboard", href: "/products/mainboard" },
-  { label: "VGA - GPU", href: "/products/gpu" },
-  { label: "RAM", href: "/products/ram" },
-  { label: "SSD", href: "/products/ssd" },
-  { label: "Màn Hình", href: "/products/man-hinh" },
-  { label: "Phụ Kiện", href: "/products/phu-kien" },
-  { label: "Tin tức", href: "/news", isNews: true },
+  { label: "Máy in 3D", href: "/products/may-in-3d" },
+  { label: "Filament", href: "/products/filament-vat-lieu" },
+  { label: "Mô hình Custom", href: "/products/mo-hinh-custom" },
+  { label: "Phụ kiện", href: "/products/phu-kien-linh-kien" },
+  { label: "Dịch vụ In", href: "/products/dich-vu-in-3d" },
+  { label: "Thiết kế 3D", href: "/products/thiet-ke-3d" },
+  { label: "Combo", href: "/products/combo-set" },
+  { label: "Blog", href: "/news", isNews: true },
 ];
 
 export default async function Header() {
@@ -26,7 +26,7 @@ export default async function Header() {
       {/* Top Banner */}
       <div className="bg-gradient-to-r from-pink-500 to-indigo-500 text-white text-xs font-medium py-1.5 text-center">
         <Container maxWidth="xl">
-          <p>🔥 Hàng mới về: Khuyến mãi linh kiện PC đến 30% - MUA NGAY 🔥</p>
+          <p>🔥 Mới: Dịch vụ In 3D Custom - Giảm 20% cho đơn hàng đầu tiên 🔥</p>
         </Container>
       </div>
 
@@ -35,7 +35,7 @@ export default async function Header() {
           {/* Logo */}
           <Link href="/" className="flex flex-shrink-0 items-center gap-2 group">
             <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-pink-500 to-indigo-500 bg-clip-text text-transparent group-hover:from-pink-400 group-hover:to-indigo-400 transition-all">
-              TechZone
+              Hupu
             </span>
           </Link>
 

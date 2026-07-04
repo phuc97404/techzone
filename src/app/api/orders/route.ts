@@ -27,8 +27,24 @@ export async function POST(req: Request) {
         if (product.stock < item.quantity) {
           throw new Error(`Sản phẩm ${product.name} đã hết hàng hoặc không đủ số lượng`);
         }
-        const price = product.salePrice ?? product.price;
-        totalAmount += price * item.quantity;
+        let basePrice = product.salePrice ?? product.price;
+        
+        // Calculate price offset from options
+        const rawOptions = (product as { options?: unknown }).options;
+        if (item.selectedOptions && typeof rawOptions === 'object') {
+           const parsedOptions = Array.isArray(rawOptions) ? rawOptions : [];
+           for (const [groupName, valName] of Object.entries(item.selectedOptions)) {
+              const group = parsedOptions.find((o: any) => o.name === groupName);
+              if (group && Array.isArray(group.values)) {
+                 const optVal = group.values.find((v: any) => v.val === valName);
+                 if (optVal && optVal.priceOffset) {
+                    basePrice += optVal.priceOffset;
+                 }
+              }
+           }
+        }
+        
+        totalAmount += basePrice * item.quantity;
       }
 
       // 2. Apply promo code if present
@@ -82,7 +98,8 @@ export async function POST(req: Request) {
               create: items.map((item: any) => ({
                  productId: item.productId,
                  quantity: item.quantity,
-                 price: item.price
+                 price: item.price,
+                 selectedOptions: item.selectedOptions || null
               }))
            }
         } as any

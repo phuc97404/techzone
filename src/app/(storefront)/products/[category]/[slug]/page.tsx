@@ -3,7 +3,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Badge from "@/components/ui/Badge";
-import PriceDisplay from "@/components/ui/PriceDisplay";
 import Rating from "@/components/ui/Rating";
 import ReviewSection from "@/components/common/Product/ReviewSection";
 import ProductGrid from "@/components/common/Product/ProductGrid";
@@ -45,17 +44,27 @@ export default async function ProductDetail({ params }: { params: Promise<{ cate
   });
 
   const images = (product.images as string[]) || [];
-  const specs = product.specs ? JSON.parse(product.specs as string) : {};
-  const isSale = product.salePrice && product.salePrice < product.price;
+  let specs: Record<string, unknown> = {};
+  if (typeof product.specs === 'string') {
+    try { specs = JSON.parse(product.specs); } catch {}
+  } else if (typeof product.specs === 'object' && product.specs !== null) {
+    specs = product.specs as Record<string, unknown>;
+  }
+
   const hasVariants = images.length > 1;
 
   const rawOptions = (product as { options?: unknown }).options;
-  let parsedOptions: {name: string, values: string[]}[] = [];
+  let parsedOptions: {name: string, values: {val: string, priceOffset: number}[]}[] = [];
   if (typeof rawOptions === 'string') {
     try { parsedOptions = JSON.parse(rawOptions); } catch {}
   } else if (Array.isArray(rawOptions)) {
-    parsedOptions = rawOptions as {name: string, values: string[]}[];
+    parsedOptions = rawOptions as any[];
   }
+  
+  parsedOptions = parsedOptions.map(opt => ({
+    name: opt.name,
+    values: opt.values.map((v: any) => typeof v === 'string' ? { val: v, priceOffset: 0 } : v)
+  }));
 
   return (
     <Container maxWidth="xl" className="py-8 md:py-12 min-h-screen">
@@ -137,26 +146,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ cate
                 </span>
              </div>
 
-             <div className="bg-slate-800/40 border border-slate-700/50 rounded-3xl p-6 sm:p-8 w-full mb-8 shadow-sm">
-                 <div className="flex flex-col sm:flex-row sm:items-end gap-4 mb-2">
-                   <div className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-indigo-400">
-                     <PriceDisplay price={product.salePrice || product.price} sx={{ background: 'transparent', WebkitBackgroundClip: 'text', color: 'transparent', backgroundImage: 'linear-gradient(to right, #ec4899, #818cf8)' }} />
-                   </div>
-                   {isSale && (
-                      <Typography variant="h6" className="text-slate-500 line-through font-semibold mb-1">
-                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
-                      </Typography>
-                   )}
-                 </div>
-                 
-                 {isSale && (
-                    <div className="inline-block mt-2">
-                       <Badge variant="danger" className="bg-red-500/10 text-red-400 border border-red-500/30 px-3 py-1 font-bold shadow-none">
-                          🔥 Tiết kiệm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price - product.salePrice!).replace('₫', 'đ')}
-                       </Badge>
-                    </div>
-                 )}
-             </div>
+
 
              <Typography variant="body1" className="text-slate-300 text-base leading-relaxed mb-8 max-w-2xl">
                 {product.description || "Chưa có mô tả chi tiết cho sản phẩm này."}
