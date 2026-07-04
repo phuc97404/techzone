@@ -11,7 +11,7 @@ interface Option {
 }
 
 interface ProductFormProps {
-  initialData?: any;
+  initialData?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   categories: Option[];
   brands: Option[];
 }
@@ -33,11 +33,66 @@ export default function ProductForm({ initialData, categories, brands }: Product
     featured: initialData?.featured || false
   });
 
-  const [specs, setSpecs] = useState<{key: string, value: string}[]>(
-    initialData && initialData.specs 
-      ? Object.entries(initialData.specs).map(([k, v]) => ({ key: k, value: v as string }))
-      : [{ key: "", value: "" }]
-  );
+  const [specs, setSpecs] = useState<{key: string, value: string}[]>(() => {
+    if (!initialData || !initialData.specs) return [{ key: "", value: "" }];
+    
+    let parsedSpecs = initialData.specs;
+    if (typeof parsedSpecs === 'string') {
+      try {
+        parsedSpecs = JSON.parse(parsedSpecs);
+      } catch {
+        return [{ key: "", value: "" }];
+      }
+    }
+    
+    if (typeof parsedSpecs === 'object' && !Array.isArray(parsedSpecs) && parsedSpecs !== null) {
+      const entries = Object.entries(parsedSpecs);
+      if (entries.length > 0) {
+        return entries.map(([k, v]) => ({ key: k, value: String(v) }));
+      }
+    }
+    
+    return [{ key: "", value: "" }];
+  });
+
+  const [options, setOptions] = useState<{name: string, values: string}[]>(() => {
+    if (!initialData || !initialData.options) return [{ name: "", values: "" }];
+    
+    let parsedOptions = initialData.options;
+    if (typeof parsedOptions === 'string') {
+      try {
+        parsedOptions = JSON.parse(parsedOptions);
+      } catch {
+        return [{ name: "", values: "" }];
+      }
+    }
+    
+    if (Array.isArray(parsedOptions) && parsedOptions.length > 0) {
+      return parsedOptions.map(opt => ({
+        name: opt.name || "",
+        values: Array.isArray(opt.values) ? opt.values.join(", ") : (opt.values || "")
+      }));
+    }
+    
+    return [{ name: "", values: "" }];
+  });
+
+  const [existingImages, setExistingImages] = useState<string[]>(initialData?.images || []);
+  const [newImages, setNewImages] = useState<File[]>([]);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setNewImages(prev => [...prev, ...Array.from(e.target.files as FileList)]);
+    }
+  };
+
+  const removeExistingImage = (index: number) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+  };
 
   const generateSlug = (text: string) => {
     return text.toString().toLowerCase()
@@ -49,9 +104,10 @@ export default function ProductForm({ initialData, categories, brands }: Product
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
+    const { name, value, type } = e.target as HTMLInputElement;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData(prev => {
-      const updated = { ...prev, [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value };
+      const updated = { ...prev, [name]: type === 'checkbox' ? checked : value };
       if (name === "name" && !initialData) {
         updated.slug = generateSlug(value);
       }
@@ -72,6 +128,19 @@ export default function ProductForm({ initialData, categories, brands }: Product
     setSpecs(newSpecs);
   };
 
+  const handleOptionChange = (index: number, field: "name" | "values", value: string) => {
+    const newOpts = [...options];
+    newOpts[index][field] = value;
+    setOptions(newOpts);
+  };
+
+  const addOptionField = () => setOptions([...options, { name: "", values: "" }]);
+  const removeOptionField = (index: number) => {
+    const newOpts = [...options];
+    newOpts.splice(index, 1);
+    setOptions(newOpts);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -81,6 +150,19 @@ export default function ProductForm({ initialData, categories, brands }: Product
       if (curr.key && curr.value) acc[curr.key] = curr.value;
       return acc;
     }, {} as Record<string, string>);
+
+    // Transform options string values back to arrays
+    const finalOptions = options
+      .filter(opt => opt.name.trim() !== "")
+      .map(opt => ({
+        name: opt.name.trim(),
+        values: opt.values.split(",").map(v => v.trim()).filter(v => v !== "")
+      }));
+
+    // Lưu ý: Ở môi trường thật, đoạn này sẽ gọi API để upload file mới (newImages) lên S3/Cloudinary
+    // Tạm thời tạo mock URLs cho ảnh mới để demo gửi đi
+    const fakeUploadedUrls = newImages.map(f => URL.createObjectURL(f));
+    const finalImages = [...existingImages, ...fakeUploadedUrls];
 
     try {
       const endpoint = initialData ? `/api/admin/products/${initialData.id}` : "/api/admin/products";
@@ -95,7 +177,8 @@ export default function ProductForm({ initialData, categories, brands }: Product
           salePrice: formData.salePrice ? Number(formData.salePrice) : null,
           stock: Number(formData.stock),
           specs: finalSpecs,
-          images: initialData?.images || [] // placeholder mock 
+          options: finalOptions,
+          images: finalImages
         })
       });
 
@@ -106,7 +189,7 @@ export default function ProductForm({ initialData, categories, brands }: Product
          const err = await res.json();
          alert(err.error || "Có lỗi xảy ra");
       }
-    } catch (e) {
+    } catch {
       alert("Lỗi kết nối server");
     } finally {
       setIsSubmitting(false);
@@ -134,11 +217,35 @@ export default function ProductForm({ initialData, categories, brands }: Product
 
          <div className={styles.card}>
             <h3>Đa phương tiện</h3>
-            <div className={styles.uploadArea}>
+            <label className={styles.uploadArea}>
+               <input type="file" multiple accept="image/*" onChange={handleImageSelect} style={{ display: 'none' }} />
                <ImageIcon size={48} className={styles.uploadIcon} />
                <p>Kéo thả hình vào đây hoặc click để tải lên</p>
                <span className={styles.uploadHint}>Hỗ trợ JPG, PNG, WEBP (Max 2MB)</span>
-            </div>
+            </label>
+
+            {(existingImages.length > 0 || newImages.length > 0) && (
+              <div className={styles.galleryGrid}>
+                {existingImages.map((url, idx) => (
+                  <div key={`exist-${idx}`} className={styles.galleryItem}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt={`Ảnh cũ ${idx}`} />
+                    <button type="button" onClick={() => removeExistingImage(idx)} className={styles.removeImageBtn}>
+                      <X size={14} />
+                    </button>
+                  </div>
+                ))}
+                {newImages.map((file, idx) => (
+                  <div key={`new-${idx}`} className={styles.galleryItem}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={URL.createObjectURL(file)} alt={`Ảnh mới ${idx}`} />
+                    <button type="button" onClick={() => removeNewImage(idx)} className={styles.removeImageBtn}>
+                      <X size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
          </div>
 
          <div className={styles.card}>
@@ -162,6 +269,28 @@ export default function ProductForm({ initialData, categories, brands }: Product
             ))}
             <button type="button" onClick={addSpecField} className={styles.addSpecBtn}>+ Thêm thông số</button>
          </div>
+
+         <div className={styles.card}>
+            <h3>Tuỳ chọn biến thể (Options)</h3>
+            {options.map((opt, idx) => (
+              <div key={idx} className={styles.specRow}>
+                <input 
+                  placeholder="Nhóm (vd: Màu sắc)" 
+                  value={opt.name} 
+                  onChange={(e) => handleOptionChange(idx, "name", e.target.value)}
+                />
+                <input 
+                  placeholder="Các giá trị cách nhau bằng dấu phẩy (vd: Đỏ, Xanh, Vàng)" 
+                  value={opt.values} 
+                  onChange={(e) => handleOptionChange(idx, "values", e.target.value)}
+                />
+                <button type="button" onClick={() => removeOptionField(idx)} className={styles.removeBtn}>
+                  <X size={16} />
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={addOptionField} className={styles.addSpecBtn}>+ Thêm nhóm tuỳ chọn</button>
+         </div>
       </div>
 
       <div className={styles.sideCol}>
@@ -179,11 +308,6 @@ export default function ProductForm({ initialData, categories, brands }: Product
               <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} />
               Sản phẩm nổi bật (Featured)
             </label>
-
-            <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
-               <Save size={18} />
-               {isSubmitting ? "Đang xử lý..." : (initialData ? "Cập nhật" : "Lưu sản phẩm")}
-            </button>
          </div>
 
          <div className={styles.card}>
@@ -219,6 +343,16 @@ export default function ProductForm({ initialData, categories, brands }: Product
                <input type="number" name="stock" value={formData.stock} onChange={handleChange} required min="0" />
             </div>
          </div>
+      </div>
+
+      <div className={styles.stickyActionBar}>
+         <button type="button" className={styles.cancelBtn} onClick={() => router.push("/admin/products")}>
+            Hủy bỏ
+         </button>
+         <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+            <Save size={18} />
+            {isSubmitting ? "Đang xử lý..." : (initialData ? "Cập nhật sản phẩm" : "Lưu sản phẩm")}
+         </button>
       </div>
     </form>
   );

@@ -7,9 +7,9 @@ import PriceDisplay from "@/components/ui/PriceDisplay";
 import Rating from "@/components/ui/Rating";
 import ReviewSection from "@/components/common/Product/ReviewSection";
 import ProductGrid from "@/components/common/Product/ProductGrid";
-import AddToCartButton from "@/components/common/Product/AddToCartButton";
+import ProductOptionsSelector from "@/components/common/Product/ProductOptionsSelector";
 import { getProductSchema } from "@/lib/seo";
-import { Container, Box, Typography, Button, Divider, Breadcrumbs } from "@mui/material";
+import { Container, Typography, Breadcrumbs } from "@mui/material";
 import { ChevronRight, ShieldCheck, Truck, RotateCcw } from "lucide-react";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -48,6 +48,14 @@ export default async function ProductDetail({ params }: { params: Promise<{ cate
   const specs = product.specs ? JSON.parse(product.specs as string) : {};
   const isSale = product.salePrice && product.salePrice < product.price;
   const hasVariants = images.length > 1;
+
+  const rawOptions = (product as { options?: unknown }).options;
+  let parsedOptions: {name: string, values: string[]}[] = [];
+  if (typeof rawOptions === 'string') {
+    try { parsedOptions = JSON.parse(rawOptions); } catch {}
+  } else if (Array.isArray(rawOptions)) {
+    parsedOptions = rawOptions as {name: string, values: string[]}[];
+  }
 
   return (
     <Container maxWidth="xl" className="py-8 md:py-12 min-h-screen">
@@ -154,34 +162,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ cate
                 {product.description || "Chưa có mô tả chi tiết cho sản phẩm này."}
              </Typography>
 
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-10">
-                 {product.stock > 0 ? (
-                    <>
-                       <AddToCartButton 
-                          product={{
-                             id: product.id,
-                             name: product.name,
-                             slug: product.slug,
-                             price: product.price,
-                             salePrice: product.salePrice || undefined,
-                             image: images.length > 0 ? images[0] : "/placeholder.png",
-                             stock: product.stock
-                          }} 
-                          variant="contained" 
-                          fullWidth={true}
-                       />
-                       <Link href="/checkout" passHref className="w-full">
-                         <Button fullWidth variant="contained" className="h-[52px] bg-gradient-to-r from-pink-500 to-indigo-500 text-white font-bold text-base shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:-translate-y-1 transition-all rounded-xl normal-case">
-                           Mua Ngay (Thanh toán)
-                         </Button>
-                       </Link>
-                    </>
-                 ) : (
-                    <Button fullWidth disabled variant="contained" className="h-[52px] bg-slate-800 text-slate-500 font-bold rounded-xl normal-case sm:col-span-2">
-                      TẠM HẾT HÀNG
-                    </Button>
-                 )}
-             </div>
+             <ProductOptionsSelector product={product} options={parsedOptions} images={images} />
 
              {/* Features/Promises */}
              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mb-10 py-6 border-y border-slate-700/50">

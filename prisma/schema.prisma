@@ -98,6 +98,7 @@ model Product {
   salePrice   Float?
   images      String[]
   specs       Json          @default("{}")
+  options     Json          @default("[]")
   stock       Int           @default(0)
   featured    Boolean       @default(false)
   status      ProductStatus @default(ACTIVE)
@@ -153,6 +154,7 @@ model Cart {
 model CartItem {
   id       String @id @default(cuid())
   quantity Int    @default(1)
+  selectedOptions Json?
 
   cartId    String
   cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
@@ -193,6 +195,7 @@ model OrderItem {
   id       String @id @default(cuid())
   quantity Int
   price    Float
+  selectedOptions Json?
 
   orderId   String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)

@@ -25,6 +25,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         featured: data.featured,
         images: data.images,
         specs: data.specs,
+        options: data.options,
         categoryId: data.categoryId,
         brandId: data.brandId,
       }

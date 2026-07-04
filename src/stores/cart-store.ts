@@ -9,6 +9,7 @@ export interface CartProduct {
   salePrice?: number;
   image: string;
   stock: number;
+  selectedOptions?: Record<string, string>;
 }
 
 export interface CartItemState {

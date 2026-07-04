@@ -23,6 +23,7 @@ export async function POST(req: Request) {
         featured: data.featured,
         images: data.images,
         specs: data.specs,
+        options: data.options,
         categoryId: data.categoryId,
         brandId: data.brandId,
       }
